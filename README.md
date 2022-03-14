@@ -27,7 +27,7 @@ you can generate a project from a template at any time using:
 ## Build
 In order to build the generated application we use [cargo-espflash](https://github.com/esp-rs/espflash) tool which allows us to save the generated image:
 
-`cargo espflash save-image --release image.bin`
+`cargo espflash save-image --release <imageName>`
 
 ## Flash
 Since the repository folder is syncronized with the Docker /home/vscode/esp-rs folder,
@@ -49,3 +49,9 @@ Default Offsets:
 | **esp32s2** |       0x0      |        0x8000       |        0x10000        |
 | **esp32s3** |       0x0      |        0x8000       |        0x10000        |
 | **esp32c3** |       0x0      |        0x8000       |        0x10000        |
+
+## Monitor
+You can use [espmonitor](https://github.com/esp-rs/espmonitor) from your local enviroment to monitor
+the output of your ESP board:
+
+`espmonitor /dev/<serialPort>`
