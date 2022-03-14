@@ -2,7 +2,7 @@
 This repository uses Docker to offer the enviroment needed to develop applications for [ESP 
 boards using Rust](https://github.com/esp-rs), it also offers integration with VsCode using [Remote - Containers](https://code.visualstudio.com/docs/remote/containers)
 
-## Table of contents
+## Table of Contents
 
 - [Quick Start](#quick-start)
   - [Create a project](#create-a-project)
@@ -25,7 +25,7 @@ you can generate a project from a template at any time using:
 `cargo generate --git https://github.com/esp-rs/esp-idf-template cargo`
 
 ## Build
-In order to build the generated application we use þcargo-espflash](https://github.com/esp-rs/espflash) tool which allows us to save the generated image:
+In order to build the generated application we use [cargo-espflash](https://github.com/esp-rs/espflash) tool which allows us to save the generated image:
 
 `cargo espflash save-image --release image.bin`
 
