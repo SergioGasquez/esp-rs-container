@@ -17,5 +17,6 @@ RUN chown -R vscode $HOME/.cargo/
 RUN chown -R vscode $HOME/.rustup/
 USER vscode
 RUN rustup target add riscv32i-unknown-none-elf
+RUN rustup component add rust-src
 RUN echo source /opt/export-rust.sh >> ~/.zshrc
 RUN echo source /opt/export-rust.sh >> ~/.bashrc
