@@ -19,5 +19,3 @@ ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
 RUN echo source /home/vscode/export-rust.sh >> ~/.bashrc
 RUN mkdir /home/vscode/workspace
-# Remove once install-rust-toolchain.sh has the feautre to clean it propperly
-RUN rm -rf /home/vscode/rust-1.59.0.1-x86_64-unknown-linux-gnu
