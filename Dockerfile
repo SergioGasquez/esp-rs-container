@@ -16,6 +16,7 @@ RUN rust-build/install-rust-toolchain.sh \
     --clear-cache "YES" --export-file /home/vscode/export-rust.sh
 RUN . ./export-rust.sh
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
+RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
 RUN echo source /home/vscode/export-rust.sh >> ~/.bashrc
 RUN mkdir /home/vscode/workspace
