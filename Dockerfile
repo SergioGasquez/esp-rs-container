@@ -8,17 +8,16 @@ RUN apt-get update \
      python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5 clang \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 RUN adduser --disabled-password --gecos "" vscode
-ENV HOME=/home/vscode
-RUN git clone https://github.com/esp-rs/rust-build.git /opt/rust-build
-RUN /opt/rust-build/install-rust-toolchain.sh \
-    --extra-crates "ldproxy cargo-generate cargo-espflash" \
-    --clear-cache "YES" --export-file /opt/export-rust.sh
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain nightly
-ENV PATH=${PATH}:$HOME/.cargo/bin
-RUN mkdir $HOME/dev
-RUN chown -R vscode $HOME/.cargo/
-RUN chown -R vscode $HOME/.rustup/
 USER vscode
-RUN rustup target add riscv32i-unknown-none-elf
-RUN rustup component add rust-src
-RUN echo source /opt/export-rust.sh >> ~/.bashrc
+WORKDIR /home/vscode
+RUN git clone https://github.com/esp-rs/rust-build.git rust-build
+RUN rust-build/install-rust-toolchain.sh \
+    --extra-crates "ldproxy cargo-generate cargo-espflash" \
+    --clear-cache "YES" --export-file /home/vscode/export-rust.sh
+RUN . ./export-rust.sh
+ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
+RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
+RUN echo source /home/vscode/export-rust.sh >> ~/.bashrc
+RUN mkdir /home/vscode/workspace
+# Remove once install-rust-toolchain.sh has the feautre to clean it propperly
+RUN rm -rf /home/vscode/rust-1.59.0.1-x86_64-unknown-linux-gnu
