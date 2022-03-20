@@ -53,7 +53,7 @@ jobs:
         with:
           build-args: ESP_IDF_VERSION=v4.3.2
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: sergiogasquez/esp-rs-env:espidf_v4.3.2
           cache-from: type=local,src=/tmp/.buildx-cache
