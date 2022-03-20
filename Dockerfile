@@ -1,5 +1,7 @@
 FROM sergiogasquez/esp-rs-env:base
 # Test: Set global esp-idf env
+USER vscode
+ENV USER=vscode
 ENV ESP_IDF_TOOLS_INSTALL_DIR=global
 ARG ESP_IDF_VERSION
 ENV ESP_IDF_VERSION=${ESP_IDF_VERSION}
