@@ -7,20 +7,8 @@ on:
     branches: [ main ]
 
 jobs:
-  setup-docker:
+  base-image:
     runs-on: ubuntu-latest
-    # strategy:
-    #   matrix:
-    #    os: [ubuntu-latest]
-    #    platforms: [linux/amd64, linux/arm64]
-    #    esp-idf-version: [v4.4, v4.3.2, master]
-    #   #  include:
-    #   #    - esp-idf-version: v4.4
-    #   #    - esp-idf-version: v4.3.2
-    #   #    - esp-idf-version: master
-    #    exclude:
-    #      - platforms: linux/arm64
-    #        esp-idf-version: v4.3.2
     steps:
       -
         name: Checkout
@@ -37,9 +25,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-  base-image:
-    runs-on: ubuntu-latest
-    steps:
+    # base-image:
       -
         name: Build and push - Base image
         uses: docker/build-push-action@v2
@@ -51,9 +37,37 @@ jobs:
           tags: sergiogasquez/esp-rs-env:base, sergiogasquez/esp-rs-env:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      - name: Move cache
+        run:
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
   esp-idf-versions:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+       os: [ubuntu-latest]
+       platforms: [linux/amd64, linux/arm64]
+       esp-idf-version: [v4.4, v4.3.2, master]
+       exclude:
+         - platforms: linux/arm64
+           esp-idf-version: v4.3.2
     steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # esp-idf-versions
       -
         name: Build and push - espidf_${{ matrix.esp-idf-version }}
         uses: docker/build-push-action@v2
@@ -65,43 +79,6 @@ jobs:
           tags: sergiogasquez/esp-rs-env:espidf_${{ matrix.esp-idf-version }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
-      # -
-      #   name: Build and push - espidf_v4.4
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     build-args: ESP_IDF_VERSION=v4.4
-      #     context: .
-      #     platforms: linux/amd64,linux/arm64
-      #     push: true
-      #     tags: sergiogasquez/esp-rs-env:espidf_v4.4
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
-      # -
-      #   name: Build and push - espidf_v4.3.2
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     build-args: ESP_IDF_VERSION=v4.3.2
-      #     context: .
-      #     platforms: linux/amd64
-      #     push: true
-      #     tags: sergiogasquez/esp-rs-env:espidf_v4.3.2
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
-      # -
-      #   name: Build and push - espidf_v5.0
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     build-args: ESP_IDF_VERSION=master
-      #     context: .
-      #     platforms: linux/amd64,linux/arm64
-      #     push: true
-      #     tags: sergiogasquez/esp-rs-env:espidf_v5.0
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-
       - name: Move cache
         run:
           rm -rf /tmp/.buildx-cache
