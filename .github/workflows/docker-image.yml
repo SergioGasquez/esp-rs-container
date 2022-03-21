@@ -7,20 +7,20 @@ on:
     branches: [ main ]
 
 jobs:
-  docker:
+  setup-docker:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-       os: [ubuntu-latest]
-       platforms: [linux/amd64, linux/arm64]
-       esp-idf-version: [v4.4, v4.3.2, master]
-      #  include:
-      #    - esp-idf-version: v4.4
-      #    - esp-idf-version: v4.3.2
-      #    - esp-idf-version: master
-       exclude:
-         - platforms: linux/arm64
-           esp-idf-version: v4.3.2
+    # strategy:
+    #   matrix:
+    #    os: [ubuntu-latest]
+    #    platforms: [linux/amd64, linux/arm64]
+    #    esp-idf-version: [v4.4, v4.3.2, master]
+    #   #  include:
+    #   #    - esp-idf-version: v4.4
+    #   #    - esp-idf-version: v4.3.2
+    #   #    - esp-idf-version: master
+    #    exclude:
+    #      - platforms: linux/arm64
+    #        esp-idf-version: v4.3.2
     steps:
       -
         name: Checkout
@@ -37,6 +37,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+  base-image:
+    runs-on: ubuntu-latest
+    steps:
       -
         name: Build and push - Base image
         uses: docker/build-push-action@v2
@@ -48,6 +51,9 @@ jobs:
           tags: sergiogasquez/esp-rs-env:base, sergiogasquez/esp-rs-env:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+  esp-idf-versions:
+    runs-on: ubuntu-latest
+    steps:
       -
         name: Build and push - espidf_${{ matrix.esp-idf-version }}
         uses: docker/build-push-action@v2
