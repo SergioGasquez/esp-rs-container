@@ -19,6 +19,7 @@ jobs:
        esp-idf-version: [v4.4, v4.3.2, v5.0]
     container:
       image: sergiogasquez/esp-rs-env:base
+      options: --user vscode
     steps:
          - name: Build template project
            run: |
@@ -37,6 +38,7 @@ jobs:
        esp-idf-version: [v4.4, v4.3.2, v5.0]
     container:
       image: sergiogasquez/esp-rs-env:espidf_${{ matrix.esp-idf-version }}
+      options: --user vscode
     steps:
          - name: Build template project
            run: |
