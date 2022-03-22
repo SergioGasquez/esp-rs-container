@@ -54,7 +54,7 @@ jobs:
         name: Build and push - espidf_v4.3.2
         uses: docker/build-push-action@v2
         with:
-          build-args: ESP_IDF_VERSION=v4.3.2,ESP_IDF_BRANCH=release/v4.3.2
+          build-args: ESP_IDF_VERSION=v4.3.2, ESP_IDF_BRANCH=release/v4.3.2
           context: .
           platforms: linux/amd64
           push: true
