@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-       esp-idf-version: [base, v4.4, v4.3.2, v5.0]
+       esp-idf-version: [v4.4, v4.3.2, v5.0]
     container:
       image: sergiogasquez/esp-rs-env:espidf_${{ matrix.esp-idf-version }}
     steps:
