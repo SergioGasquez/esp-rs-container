@@ -12,7 +12,25 @@ on:
     paths-ignore:
       - '**/README.md'
 jobs:
-  build-template-project:
+  build-template-project-using-base:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+       esp-idf-version: [v4.4, v4.3.2, v5.0]
+    container:
+      image: sergiogasquez/esp-rs-env:base
+    steps:
+         - name: Build template project
+           run: |
+             cd /home/vscode/workspace
+             $HOME/.cargo/bin/cargo generate --vcs none \
+             --git https://github.com/esp-rs/esp-idf-template \
+             cargo --name rust-project --define mcu=esp32c3 \
+             --define toolchain=nightly \
+             --define espidfver=${{ matrix.esp-idf-version }} --define std=true
+             cd rust-project
+             $HOME/.cargo/bin/cargo espflash save-image --release test.bin
+  build-template-project-using-espidf-envs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -23,10 +41,10 @@ jobs:
          - name: Build template project
            run: |
              cd /home/vscode/workspace
-             cargo generate --vcs none \
+             $HOME/.cargo/bin/cargo generate --vcs none \
              --git https://github.com/esp-rs/esp-idf-template \
              cargo --name rust-project --define mcu=esp32c3 \
              --define toolchain=nightly \
              --define espidfver=${{ matrix.esp-idf-version }} --define std=true
              cd rust-project
-             cargo espflash save-image --release test.bin
+             $HOME/.cargo/bin/cargo espflash save-image --release test.bin
