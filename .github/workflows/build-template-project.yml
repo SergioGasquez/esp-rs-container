@@ -1,0 +1,32 @@
+name: build-template-project
+# on:
+#   repository_dispatch:
+#     types: [build-template-project]
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**/README.md'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+      - '**/README.md'
+jobs:
+  build-template-project:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+       esp-idf-version: [base, v4.4, v4.3.2, v5.0]
+    container:
+      image: docker.io/sergiogasquez/esp-rs-env:espidf_${{ matrix.esp-idf-version }}
+    steps:
+         - name: Build template project
+           run: |
+             cd /home/vscode/workspace
+             cargo generate --vcs none \
+             --git https://github.com/esp-rs/esp-idf-template \
+             cargo --name rust-project --define mcu=esp32c3 \
+             --define toolchain=nightly \
+             --define espidfver=${{ matrix.esp-idf-version }} --define std=true
+             cd rust-project
+             cargo espflash save-image --release test.bin
