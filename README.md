@@ -1,5 +1,8 @@
 # esp-rs-container
-This repository contains a Dockerfile that creates an enviroment, using Debian
+[![Docker Base Image CI](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/base-image.yml/badge.svg)](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/base-image.yml)
+[![Docker Esp Idf Versions Images CI](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/esp-idf-images.yml/badge.svg)](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/esp-idf-images.yml)
+
+This repository contains a Dockerfiles that creates an enviroment, using Debian
 11.2, with all the neccesary tools to develop applications for
 [ESP boards using Rust](https://github.com/esp-rs).
 
