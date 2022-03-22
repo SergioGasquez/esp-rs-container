@@ -7,7 +7,7 @@ ARG ESP_IDF_BRANCH
 ENV ESP_IDF_VERSION=${ESP_IDF_VERSION}
 ENV ESP_IDF_BRANCH=${ESP_IDF_BRANCH}
 WORKDIR /home/vscode
-RUN git clone --recursive --depth 1 --shallow-submodules -b ${ESP_IDF_BRANCH} \
+RUN git clone -b ${ESP_IDF_BRANCH} \
     https://github.com/espressif/esp-idf.git
 ENV IDF_PATH=/home/vscode/esp-idf
 RUN esp-idf/install.sh all
