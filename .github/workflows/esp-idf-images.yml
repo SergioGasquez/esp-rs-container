@@ -1,13 +1,8 @@
 name: Docker Esp Idf Versions Images CI
 
-# on:
-#   repository_dispatch:
-#     types: [trigger-workflow-2]
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  repository_dispatch:
+    types: [build-espidf-images]
 
 jobs:
   esp-idf-versions:
@@ -60,7 +55,7 @@ jobs:
         with:
           build-args: |
             ESP_IDF_VERSION=v4.3.2
-            ESP_IDF_BRANCH=release/v4.3.2
+            ESP_IDF_BRANCH=release/v4.3
           context: .
           platforms: linux/amd64
           push: true

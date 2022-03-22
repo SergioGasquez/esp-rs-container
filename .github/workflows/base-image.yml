@@ -46,4 +46,4 @@ jobs:
         with:
           token: ${{ secrets.REPO_GHA_PAT }}
           repository: ${{ github.repository }}
-          event-type: trigger-workflow-2
+          event-type: build-espidf-images
