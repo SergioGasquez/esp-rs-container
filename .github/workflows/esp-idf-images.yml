@@ -91,7 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        board: [esp32, esp32s2, esp32s3, riscv-base]
+        board: [esp32, esp32s2, esp32s3]
     steps:
       -
         name: Checkout
