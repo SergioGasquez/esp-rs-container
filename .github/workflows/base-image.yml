@@ -29,15 +29,37 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+      # -
+      #   name: Build and push - Base image
+      #   uses: docker/build-push-action@v2
+      #   with:
+      #     file: base.Dockerfile
+      #     context: .
+      #     platforms: linux/amd64,linux/arm64
+      #     push: true
+      #     tags: sergiogasquez/esp-rs-env:base, sergiogasquez/esp-rs-env:latest
+      #     cache-from: type=local,src=/tmp/.buildx-cache
+      #     cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
-        name: Build and push - Base image
+        name: Build and push - Xtensa base image
         uses: docker/build-push-action@v2
         with:
-          file: base.Dockerfile
+          file: xtensa-base.Dockerfile
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: sergiogasquez/esp-rs-env:base, sergiogasquez/esp-rs-env:latest
+          tags: sergiogasquez/esp-rs-env:xtensa-base
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      -
+        name: Build and push - RiscV base image
+        uses: docker/build-push-action@v2
+        with:
+          file: riscv-base.Dockerfile
+          context: .
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: sergiogasquez/esp-rs-env:riscv-base
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       - name: Move cache

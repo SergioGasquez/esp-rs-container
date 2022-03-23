@@ -10,12 +10,9 @@ RUN apt-get update \
 RUN adduser --disabled-password --gecos "" vscode
 USER vscode
 WORKDIR /home/vscode
-RUN git clone https://github.com/esp-rs/rust-build.git rust-build
-RUN rust-build/install-rust-toolchain.sh \
-    --extra-crates "ldproxy cargo-generate cargo-espflash" \
-    --clear-cache "YES" --export-file /home/vscode/export-rust.sh
-RUN . ./export-rust.sh
+RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain none -y
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
+RUN $HOME/.cargo/bin/rustup toolchain install nightly
 RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
-RUN echo source /home/vscode/export-rust.sh >> ~/.bashrc
+RUN $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash ldproxy
