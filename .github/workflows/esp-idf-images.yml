@@ -92,7 +92,6 @@ jobs:
     strategy:
       matrix:
         board: [esp32, esp32s2, esp32s3, riscv-base]
-        platforms: [linux/amd64, linux/arm64]
     steps:
       -
         name: Checkout
@@ -119,7 +118,7 @@ jobs:
             ESP_IDF_BRANCH=master
             ESP_BOARD=${{ matrix.board }}
           context: .
-          platforms: ${{ matrix.platforms }}
+          platforms: linux/amd64, linux/arm64
           push: true
           tags: sergiogasquez/esp-rs-env:${{ matrix.board }}
           cache-from: type=local,src=/tmp/.buildx-cache
