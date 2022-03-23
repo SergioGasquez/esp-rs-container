@@ -29,7 +29,7 @@ jobs:
         with:
           build-args: |
             BASE_DOCKERFILE=base
-            ESP_IDF_VERSION=v4.4
+            ESP_IDF_VER=v4.4
             ESP_IDF_BRANCH=release/v4.4
             ESP_BOARD=all
           context: .
@@ -44,7 +44,7 @@ jobs:
         with:
           build-args: |
             BASE_DOCKERFILE=base
-            ESP_IDF_VERSION=v5.0
+            ESP_IDF_VER=v5.0
             ESP_IDF_BRANCH=master
             ESP_BOARD=all
           context: .
@@ -59,7 +59,7 @@ jobs:
         with:
           build-args: |
             BASE_DOCKERFILE=base
-            ESP_IDF_VERSION=v4.3.2
+            ESP_IDF_VER=v4.3.2
             ESP_IDF_BRANCH=release/v4.3
             ESP_BOARD=all
           context: .
@@ -74,7 +74,7 @@ jobs:
         with:
           build-args: |
             BASE_DOCKERFILE=riscv-base
-            ESP_IDF_VERSION=v5.0
+            ESP_IDF_VER=v5.0
             ESP_IDF_BRANCH=master
             ESP_BOARD=esp32c3
           context: .
@@ -114,7 +114,7 @@ jobs:
         with:
           build-args: |
             BASE_DOCKERFILE=xtensa-base
-            ESP_IDF_VERSION=v5.0
+            ESP_IDF_VER=v5.0
             ESP_IDF_BRANCH=master
             ESP_BOARD=${{ matrix.board }}
           context: .

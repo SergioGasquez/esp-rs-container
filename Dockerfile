@@ -3,9 +3,9 @@ FROM sergiogasquez/esp-rs-env:${BASE_DOCKERFILE}
 USER vscode
 ENV USER=vscode
 ENV ESP_IDF_TOOLS_INSTALL_DIR=global
-ARG ESP_IDF_VERSION
+ARG ESP_IDF_VER
 ARG ESP_IDF_BRANCH
-ENV ESP_IDF_VERSION=${ESP_IDF_VERSION}
+ENV ESP_IDF_VER=${ESP_IDF_VER}
 ENV ESP_IDF_BRANCH=${ESP_IDF_BRANCH}
 RUN git clone --recursive --depth 1 --shallow-submodules -b ${ESP_IDF_BRANCH} \
     https://github.com/espressif/esp-idf.git /home/vscode/esp-idf
