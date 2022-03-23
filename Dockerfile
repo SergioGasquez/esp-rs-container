@@ -10,6 +10,7 @@ ENV ESP_IDF_BRANCH=${ESP_IDF_BRANCH}
 RUN git clone --recursive --depth 1 --shallow-submodules -b ${ESP_IDF_BRANCH} \
     https://github.com/espressif/esp-idf.git /home/vscode/esp-idf
 ARG ESP_BOARD
+ENV ESP_BOARD=${ESP_BOARD}
 RUN /home/vscode/esp-idf/install.sh ${ESP_BOARD}
 ENV IDF_PATH=/home/vscode/esp-idf
 RUN echo source /home/vscode/esp-idf/export.sh >> ~/.bashrc
