@@ -5,7 +5,7 @@ on:
     types: [build-espidf-images]
 
 jobs:
-  esp-idf-versions:
+  esp-idf-riscv-versions:
     runs-on: ubuntu-latest
     steps:
       -
@@ -23,51 +23,51 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      # -
-      #   name: Build and push - espidf_v4.4
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     build-args: |
-      #       BASE_DOCKERFILE=base
-      #       ESP_IDF_VERSION=v4.4
-      #       ESP_IDF_BRANCH=release/v4.4
-      #       ESP_BOARD=all
-      #     context: .
-      #     platforms: linux/amd64, linux/arm64
-      #     push: true
-      #     tags: sergiogasquez/esp-rs-env:espidf_v4.4
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-      # -
-      #   name: Build and push - espidf_v5.0
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     build-args: |
-      #       BASE_DOCKERFILE=base
-      #       ESP_IDF_VERSION=v5.0
-      #       ESP_IDF_BRANCH=master
-      #       ESP_BOARD=all
-      #     context: .
-      #     platforms: linux/amd64, linux/arm64
-      #     push: true
-      #     tags: sergiogasquez/esp-rs-env:espidf_v5.0, sergiogasquez/esp-rs-env:master
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-      # -
-      #   name: Build and push - espidf_v4.3.2
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     build-args: |
-      #       BASE_DOCKERFILE=base
-      #       ESP_IDF_VERSION=v4.3.2
-      #       ESP_IDF_BRANCH=release/v4.3
-      #       ESP_BOARD=all
-      #     context: .
-      #     platforms: linux/amd64
-      #     push: true
-      #     tags: sergiogasquez/esp-rs-env:espidf_v4.3.2
-      #     cache-from: type=local,src=/tmp/.buildx-cache
-      #     cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      -
+        name: Build and push - espidf_v4.4
+        uses: docker/build-push-action@v2
+        with:
+          build-args: |
+            BASE_DOCKERFILE=base
+            ESP_IDF_VERSION=v4.4
+            ESP_IDF_BRANCH=release/v4.4
+            ESP_BOARD=all
+          context: .
+          platforms: linux/amd64, linux/arm64
+          push: true
+          tags: sergiogasquez/esp-rs-env:espidf_v4.4
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      -
+        name: Build and push - espidf_v5.0
+        uses: docker/build-push-action@v2
+        with:
+          build-args: |
+            BASE_DOCKERFILE=base
+            ESP_IDF_VERSION=v5.0
+            ESP_IDF_BRANCH=master
+            ESP_BOARD=all
+          context: .
+          platforms: linux/amd64, linux/arm64
+          push: true
+          tags: sergiogasquez/esp-rs-env:espidf_v5.0, sergiogasquez/esp-rs-env:master
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      -
+        name: Build and push - espidf_v4.3.2
+        uses: docker/build-push-action@v2
+        with:
+          build-args: |
+            BASE_DOCKERFILE=base
+            ESP_IDF_VERSION=v4.3.2
+            ESP_IDF_BRANCH=release/v4.3
+            ESP_BOARD=all
+          context: .
+          platforms: linux/amd64
+          push: true
+          tags: sergiogasquez/esp-rs-env:espidf_v4.3.2
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
         name: Build and push - esp32c3
         uses: docker/build-push-action@v2
@@ -83,49 +83,45 @@ jobs:
           tags: sergiogasquez/esp-rs-env:esp32c3
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      - name: Move cache
+        run:
+          rm -rf /tmp/.buildx-cache
+          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+  xtensa-versions:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        board: [esp32, esp32s2, esp32s3, riscv-base]
+        platforms: [linux/amd64, linux/arm64]
+    steps:
       -
-        name: Build and push - esp32s2
+        name: Checkout
+        uses: actions/checkout@v2
+      -
+        name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push - ${{ matrix.board }}
         uses: docker/build-push-action@v2
         with:
           build-args: |
             BASE_DOCKERFILE=xtensa-base
             ESP_IDF_VERSION=v5.0
             ESP_IDF_BRANCH=master
-            ESP_BOARD=esp32s2
+            ESP_BOARD=${{ matrix.board }}
           context: .
-          platforms: linux/amd64, linux/arm64
+          platforms: ${{ matrix.platforms }}
           push: true
-          tags: sergiogasquez/esp-rs-env:esp32s2
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-      -
-        name: Build and push - esp32s3
-        uses: docker/build-push-action@v2
-        with:
-          build-args: |
-            BASE_DOCKERFILE=xtensa-base
-            ESP_IDF_VERSION=v5.0
-            ESP_IDF_BRANCH=master
-            ESP_BOARD=esp32s3
-          context: .
-          platforms: linux/amd64, linux/arm64
-          push: true
-          tags: sergiogasquez/esp-rs-env:esp32s3
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-      -
-        name: Build and push - esp32
-        uses: docker/build-push-action@v2
-        with:
-          build-args: |
-            BASE_DOCKERFILE=xtensa-base
-            ESP_IDF_VERSION=v5.0
-            ESP_IDF_BRANCH=master
-            ESP_BOARD=esp32
-          context: .
-          platforms: linux/amd64, linux/arm64
-          push: true
-          tags: sergiogasquez/esp-rs-env:esp32
+          tags: sergiogasquez/esp-rs-env:${{ matrix.board }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       - name: Move cache
