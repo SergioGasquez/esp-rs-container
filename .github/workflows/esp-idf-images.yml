@@ -83,6 +83,21 @@ jobs:
           tags: sergiogasquez/esp-rs-env:esp32c3
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
+      -
+        name: Build and push - esp32c3-training
+        uses: docker/build-push-action@v2
+        with:
+          build-args: |
+            BASE_DOCKERFILE=riscv-base
+            ESP_IDF_VER=v4.4
+            ESP_IDF_BRANCH=release/v4.4
+            ESP_BOARD=esp32c3
+          context: .
+          platforms: linux/amd64, linux/arm64
+          push: true
+          tags: sergiogasquez/esp-rs-env:esp32c3-training
+          cache-from: type=local,src=/tmp/.buildx-cache
+          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       - name: Move cache
         run:
           rm -rf /tmp/.buildx-cache
