@@ -15,7 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        base: [base, xtensa-base, riscv-base]
+        # base: [base, xtensa-base, riscv-base]
+        base: [riscv-base]
     steps:
       -
         name: Checkout
