@@ -16,4 +16,4 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
 RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly-2022-03-10
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
-RUN $HOME/.cargo/bin/install cargo-generate cargo-espflash espmonitor bindgen ldproxy
+RUN $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy
