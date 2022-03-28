@@ -12,7 +12,7 @@ USER vscode
 WORKDIR /home/vscode
 RUN git clone https://github.com/esp-rs/rust-build.git rust-build
 RUN rust-build/install-rust-toolchain.sh \
-    --extra-crates "ldproxy cargo-generate cargo-espflash" \
+    --extra-crates "ldproxy cargo-generate cargo-espflash espmonitor bindgen" \
     --clear-cache "YES" --export-file /home/vscode/export-rust.sh
 RUN . ./export-rust.sh
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
