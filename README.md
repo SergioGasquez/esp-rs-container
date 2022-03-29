@@ -43,3 +43,6 @@ platforms will be published into the
 - `esp32c3` fully functional environment with
   [esp-idf v5.0](https://github.com/espressif/esp-idf/tree/master) installed for
   `esp32c3`.
+- `espidf_v4.4-esp32c3` fully functional environment with
+  [esp-idf v4.4](https://github.com/espressif/esp-idf/tree/release/v4.4) installed for
+  `esp32c3`.
