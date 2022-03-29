@@ -10,10 +10,11 @@ RUN apt-get update \
 RUN adduser --disabled-password --gecos "" vscode
 USER vscode
 WORKDIR /home/vscode
-# Required due to: https://github.com/rust-lang/rust/issues/95267
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
-    --default-toolchain nightly-2022-03-10 -y
+    --default-toolchain nightly -y
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
-RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly-2022-03-10
+RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
-RUN $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy
+# Cargo-generate is currently throwing an error while installing
+# RUN $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy
+RUN $HOME/.cargo/bin/cargo install cargo-espflash espmonitor bindgen ldproxy
