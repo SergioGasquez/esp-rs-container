@@ -14,5 +14,4 @@ ARG ESP_BOARD
 ENV ESP_BOARD=${ESP_BOARD}
 RUN /home/vscode/esp-idf/install.sh ${ESP_BOARD}
 ENV IDF_PATH=/home/vscode/esp-idf
-RUN echo source /home/vscode/esp-idf/export.sh >> ~/.bashrc
 RUN echo export IDF_PYTHON_ENV_PATH=/home/vscode/.local/bin >> ~/.bashrc
