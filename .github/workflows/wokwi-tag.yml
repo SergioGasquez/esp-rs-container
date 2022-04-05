@@ -1,10 +1,8 @@
-name: Docker Esp Idf Versions Images CI
+name: Wokwi Tag
 
 on:
-    push:
-      branches: [ feature/wokwi ]
-      paths-ignore:
-        - '**/README.md'
+  repository_dispatch:
+    types: [build-wokwi-tag]
 
 jobs:
   wokwi-tag:
