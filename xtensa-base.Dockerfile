@@ -16,4 +16,4 @@ RUN rust-build/install-rust-toolchain.sh \
     --clear-cache "YES" --export-file /home/vscode/export-rust.sh
 RUN . ./export-rust.sh
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
-RUN echo source /home/vscode/export-rust.sh >> ~/.bashrc
+RUN echo "source /home/vscode/export-rust.sh > /dev/null" >> ~/.bashrc
