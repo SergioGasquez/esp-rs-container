@@ -1,5 +1,7 @@
+# Esp Idf v4.4 enviroment with Espressif Training and example dependencies fetched
 FROM sergiogasquez/esp-rs-env:espidf_v4.4
 RUN $HOME/.cargo/bin/rustup default nightly
+# Fetch dependencies: espressif-trainings
 RUN git clone -b feature/fetch-dependencies https://github.com/SergioGasquez/espressif-trainings.git && \
     # Hardware Check
     cd /home/vscode/espressif-trainings/intro/hardware-check && \
@@ -36,10 +38,12 @@ RUN git clone -b feature/fetch-dependencies https://github.com/SergioGasquez/esp
     $HOME/.cargo/bin/cargo fetch && \
     # Delete the repository
     rm -rf /home/vscode/espressif-trainings
+# Fetch dependencies: esp32s3 std
 RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32s3 --define mcu=esp32s3 --define toolchain=nightly --define espidfver=v4.4 --define std=true && \
     cd $HOME/esp32s3 && \
     $HOME/.cargo/bin/cargo +esp fetch && \
     rm -rf $HOME/esp32s3
+# Fetch dependencies: esp32s3 no_std
 RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32s3nostd --define mcu=esp32s3 --define toolchain=nightly --define espidfver=v4.4 --define std=false && \
     cd $HOME/esp32s3nostd && \
     $HOME/.cargo/bin/cargo +esp fetch && \
