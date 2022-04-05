@@ -46,3 +46,4 @@ platforms will be published into the
 - `espidf_v4.4-esp32c3` fully functional environment with
   [esp-idf v4.4](https://github.com/espressif/esp-idf/tree/release/v4.4) installed for
   `esp32c3`.
+- `wokwi` is generated from `espidf_v4.4` and has some dependencies fetched.
