@@ -1,21 +1,12 @@
-name: Base Tags
+name: Wokwi Tag
 
 on:
-  push:
-    branches: [ main ]
-    paths-ignore:
-      - '**/README.md'
-  pull_request:
-    branches: [ main ]
-    paths-ignore:
-      - '**/README.md'
+  repository_dispatch:
+    types: [build-wokwi-tag]
 
 jobs:
-  base-images:
+  wokwi-tag:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        base: [base, xtensa-base, riscv-base]
     steps:
       -
         name: Checkout
@@ -33,24 +24,17 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
-        name: Build and push - ${{ matrix.base }} image
+        name: Build and push - wokwi
         uses: docker/build-push-action@v2
         with:
-          file: ${{ matrix.base }}.Dockerfile
+          file: wokwi.Dockerfile
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
-          tags: sergiogasquez/esp-rs-env:${{ matrix.base }}
+          tags: sergiogasquez/esp-rs-env:wokwi
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       - name: Move cache
         run:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-      - name: Trigger next workflow
-        if: success()
-        uses: peter-evans/repository-dispatch@v1
-        with:
-          token: ${{ secrets.REPO_GHA_PAT }}
-          repository: ${{ github.repository }}
-          event-type: build-espidf-images
