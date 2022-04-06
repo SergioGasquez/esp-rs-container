@@ -1,11 +1,11 @@
-name: esp-idf and boards Tags
+name: Docker Esp Idf Versions Tags CI
 
 on:
   repository_dispatch:
-    types: [build-espidf-images]
+    types: [build-espidf-tags]
 
 jobs:
-  esp-idf-riscv-versions:
+  esp-idf-riscv-tags:
     runs-on: ubuntu-latest
     steps:
       -
@@ -102,7 +102,7 @@ jobs:
         run:
           rm -rf /tmp/.buildx-cache
           mv /tmp/.buildx-cache-new /tmp/.buildx-cache
-  xtensa-versions:
+  xtensa-tags:
     runs-on: ubuntu-latest
     strategy:
       matrix:
