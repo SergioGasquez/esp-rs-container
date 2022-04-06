@@ -13,12 +13,13 @@ RUN apt-get update \
 RUN adduser --disabled-password --gecos "" vscode
 USER vscode
 WORKDIR /home/vscode
-# Install toolchain and extra crates
+# Install toolchain
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
     --default-toolchain nightly -y
-RUN $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy
 # Set enviroment variables
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
 # Install components and targets
 RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
+# Install cargo tools
+RUN $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy
