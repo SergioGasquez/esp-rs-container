@@ -1,8 +1,8 @@
 # esp-rs-container
 <div align="center">
 
-[![Docker Base Image CI](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/base-image.yml/badge.svg)](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/base-image.yml)
-[![Docker Esp Idf Versions Images CI](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/esp-idf-images.yml/badge.svg)](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/esp-idf-images.yml)
+[![Docker Base Tags CI](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/base-tags.yml/badge.svg)](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/base-tags.yml)
+[![Docker Esp Idf Versions Tags CI](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/esp-idf-tags.yml/badge.svg)](https://github.com/SergioGasquez/esp-rs-container/actions/workflows/esp-idf-tags.yml)
 </div>
 
 This repository contains Dockerfiles that create environments, using Debian
