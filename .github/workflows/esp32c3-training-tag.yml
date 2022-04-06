@@ -1,10 +1,8 @@
 name: Docker Esp Idf Versions Images CI
 
 on:
-    push:
-      branches: [ espc32-training ]
-      paths-ignore:
-        - '**/README.md'
+  repository_dispatch:
+    types: [build-esp32c3-training-tag]
 
 jobs:
   esp32c3-training:
