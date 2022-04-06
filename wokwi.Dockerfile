@@ -38,13 +38,39 @@ RUN git clone -b feature/fetch-dependencies https://github.com/SergioGasquez/esp
     $HOME/.cargo/bin/cargo fetch && \
     # Delete the repository
     rm -rf /home/vscode/espressif-trainings
-# Fetch dependencies: esp32s3 std
+# Fetch dependencies: ESP32S3
 RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32s3 --define mcu=esp32s3 --define toolchain=nightly --define espidfver=v4.4 --define std=true && \
     cd $HOME/esp32s3 && \
     $HOME/.cargo/bin/cargo +esp fetch && \
     rm -rf $HOME/esp32s3
-# Fetch dependencies: esp32s3 no_std
 RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32s3nostd --define mcu=esp32s3 --define toolchain=nightly --define espidfver=v4.4 --define std=false && \
     cd $HOME/esp32s3nostd && \
     $HOME/.cargo/bin/cargo +esp fetch && \
     rm -rf $HOME/esp32s3nostd
+# Fetch dependencies: ESP32S2
+RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32s2 --define mcu=esp32s2 --define toolchain=nightly --define espidfver=v4.4 --define std=true && \
+    cd /home/vscode/esp32s2 && \
+    $HOME/.cargo/bin/cargo +esp fetch  && \
+    rm -rf /home/vscode/esp32s2
+RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32s2nostd --define mcu=esp32s2 --define toolchain=nightly --define espidfver=v4.4 --define std=false && \
+    cd /home/vscode/esp32s2nostd && \
+    $HOME/.cargo/bin/cargo +esp fetch  && \
+    rm -rf /home/vscode/esp32s2nostd
+# Fetch dependencies: ESP32
+RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32 --define mcu=esp32 --define toolchain=nightly --define espidfver=v4.4 --define std=true && \
+    cd /home/vscode/esp32 && \
+    $HOME/.cargo/bin/cargo +esp fetch  && \
+    rm -rf /home/vscode/esp32
+RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32nostd --define mcu=esp32 --define toolchain=nightly --define espidfver=v4.4 --define std=false && \
+    cd /home/vscode/esp32nostd && \
+    $HOME/.cargo/bin/cargo +esp fetch  && \
+    rm -rf /home/vscode/esp32nostd
+# Fetch dependencies: ESP32C3
+RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32c3 --define mcu=esp32c3 --define toolchain=nightly --define espidfver=v4.4 --define std=true && \
+    cd /home/vscode/esp32c3 && \
+    $HOME/.cargo/bin/cargo fetch  && \
+    rm -rf /home/vscode/esp32c3
+RUN $HOME/.cargo/bin/cargo generate --vcs none --git https://github.com/esp-rs/esp-idf-template cargo --name esp32c3nostd --define mcu=esp32c3 --define toolchain=nightly --define espidfver=v4.4 --define std=false && \
+    cd /home/vscode/esp32c3nostd && \
+    $HOME/.cargo/bin/cargo fetch  && \
+    rm -rf /home/vscode/esp32c3nostd
