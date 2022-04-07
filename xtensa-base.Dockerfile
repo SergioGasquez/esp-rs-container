@@ -16,6 +16,7 @@ WORKDIR /home/vscode
 # Install toolchain with extra crates
 RUN git clone https://github.com/esp-rs/rust-build.git rust-build
 RUN rust-build/install-rust-toolchain.sh \
+    --toolchain-version 1.59.0.1 \
     --extra-crates "ldproxy cargo-generate cargo-espflash espmonitor bindgen" \
     --clear-cache "YES" --export-file /home/vscode/export-rust.sh
 # Set enviroment variables
