@@ -161,4 +161,4 @@ jobs:
         with:
           token: ${{ secrets.REPO_GHA_PAT }}
           repository: ${{ github.repository }}
-          event-type: build-esp32c3-training-tag
+          event-type: build-wokwi-tag
