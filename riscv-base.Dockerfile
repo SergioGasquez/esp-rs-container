@@ -16,11 +16,11 @@ USER vscode
 WORKDIR /home/vscode
 # Install toolchain
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
-    --default-toolchain nightly -y
+    --default-toolchain nightly-2022-03-30 -y
 # Set enviroment variables
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
 # Install components and targets
-RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly
+RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly-2022-03-30
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
 # Install cargo tools
 RUN $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy

@@ -1,11 +1,11 @@
 FROM sergiogasquez/esp-rs-env:espidf_v4.4-esp32c3
-RUN git clone -b feature/fetch-dependencies https://github.com/SergioGasquez/espressif-trainings.git && \
+RUN git clone https://github.com/ferrous-systems/espressif-trainings.git && \
     # Hardware Check
     cd /home/vscode/espressif-trainings/intro/hardware-check && \
     $HOME/.cargo/bin/cargo fetch && \
     $HOME/.cargo/bin/cargo build && \
     $HOME/.cargo/bin/cargo clean && \
-    # Http Client 
+    # Http Client
     cd /home/vscode/espressif-trainings/intro/http-client/exercise && \
     $HOME/.cargo/bin/cargo fetch && \
     cd /home/vscode/espressif-trainings/intro/http-client/solution && \
