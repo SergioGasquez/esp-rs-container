@@ -1,6 +1,6 @@
 # Esp Idf v4.4 enviroment with Espressif Training and example dependencies fetched
 FROM sergiogasquez/esp-rs-env:espidf_v4.4
-RUN $HOME/.cargo/bin/rustup default nightly
+RUN $HOME/.cargo/bin/rustup default nightly-2022-03-30
 # Fetch dependencies: espressif-trainings
 RUN git clone -b feature/fetch-dependencies https://github.com/SergioGasquez/espressif-trainings.git && \
     # Hardware Check

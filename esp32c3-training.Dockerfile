@@ -1,5 +1,6 @@
 FROM sergiogasquez/esp-rs-env:espidf_v4.4-esp32c3
-RUN git clone https://github.com/ferrous-systems/espressif-trainings.git && \
+RUN $HOME/.cargo/bin/rustup default nightly-2022-03-30
+RUN git clone -b feature/fetch-dependencies https://github.com/SergioGasquez/espressif-trainings.git && \
     # Hardware Check
     cd /home/vscode/espressif-trainings/intro/hardware-check && \
     $HOME/.cargo/bin/cargo fetch && \
