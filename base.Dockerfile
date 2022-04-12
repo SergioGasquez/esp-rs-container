@@ -10,20 +10,22 @@ RUN apt-get update \
     python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5 clang \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 RUN pip3 install websockets==10.2
-# Set vscode user
-RUN adduser --disabled-password --gecos "" vscode
-USER vscode
-WORKDIR /home/vscode
+# Set user
+ARG CONTAINER_USER=esp
+RUN adduser --disabled-password --gecos "" ${CONTAINER_USER}
+USER ${CONTAINER_USER}
+WORKDIR /home/${CONTAINER_USER}
 # Install toolchain with extra crates
 RUN git clone https://github.com/esp-rs/rust-build.git rust-build
 RUN rust-build/install-rust-toolchain.sh \
     --toolchain-version 1.59.0.1 \
     --extra-crates "ldproxy cargo-generate cargo-espflash espmonitor bindgen" \
-    --clear-cache "YES" --export-file /home/vscode/export-rust.sh
+    --clear-cache "YES" --export-file $HOME/export-rust.sh
 # Set enviroment variables
 RUN . ./export-rust.sh
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
-RUN echo "source /home/vscode/export-rust.sh > /dev/null" >> ~/.bashrc
+RUN echo "source $HOME/export-rust.sh > /dev/null" >> ~/.bashrc
 # Install components and targets
-RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly
+RUN $HOME/.cargo/bin/rustup install nightly-2022-03-30
+RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly-2022-03-30
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
