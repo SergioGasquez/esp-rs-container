@@ -1,4 +1,7 @@
 FROM sergiogasquez/esp-rs-env:espidf_v4.4-esp32c3
+ARG CONTAINER_USER=esp
+ENV USER=${CONTAINER_USER}
+USER ${CONTAINER_USER}
 RUN $HOME/.cargo/bin/rustup default nightly-2022-03-30
 RUN git clone -b feature/fetch-dependencies https://github.com/SergioGasquez/espressif-trainings.git && \
     # Hardware Check
