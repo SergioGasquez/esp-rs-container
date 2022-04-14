@@ -26,6 +26,7 @@ RUN . ./export-rust.sh
 ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
 RUN echo "source $HOME/export-rust.sh > /dev/null" >> ~/.bashrc
 # Install components and targets
-RUN $HOME/.cargo/bin/rustup install nightly-2022-03-30
-RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain nightly-2022-03-30
+ARG NIGHTLY_VERSION=nightly
+RUN $HOME/.cargo/bin/rustup install ${NIGHTLY_VERSION}
+RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain ${NIGHTLY_VERSION}
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
