@@ -32,18 +32,16 @@ platforms will be published into the
   branch of esp-idf](https://github.com/espressif/esp-idf/tree/master) installed.
   It can be used with all the supported ESP boards.
 - `esp32` fully functional environment with
-  [esp-idf v5.0](https://github.com/espressif/esp-idf/tree/master) installed for
+  [esp-idf v4.4](https://github.com/espressif/esp-idf/tree/v4.4) installed for
   `esp32`.
 - `esp32s2` fully functional environment with
-  [esp-idf v5.0](https://github.com/espressif/esp-idf/tree/master) installed for
+  [esp-idf v4.4](https://github.com/espressif/esp-idf/tree/v4.4) installed for
   `esp32s2`.
 - `esp32s3` fully functional environment with
-  [esp-idf v5.0](https://github.com/espressif/esp-idf/tree/master) installed for
+  [esp-idf v4.4](https://github.com/espressif/esp-idf/tree/v4.4) installed for
   `esp32s3`.
 - `esp32c3` fully functional environment with
-  [esp-idf v5.0](https://github.com/espressif/esp-idf/tree/master) installed for
+  [esp-idf v4.4](https://github.com/espressif/esp-idf/tree/v4.4) installed for
   `esp32c3`.
-- `espidf_v4.4-esp32c3` fully functional environment with
-  [esp-idf v4.4](https://github.com/espressif/esp-idf/tree/release/v4.4) installed for
-  `esp32c3`.
+- `esp32c3-training` Tag for [Ferrous System's training for Espressif devices](https://github.com/ferrous-systems/espressif-trainings).
 - `wokwi` is generated from `espidf_v4.4` and has some dependencies fetched.

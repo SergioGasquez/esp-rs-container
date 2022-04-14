@@ -5,7 +5,8 @@ ARG CONTAINER_USER=esp
 ENV USER=${CONTAINER_USER}
 USER ${CONTAINER_USER}
 # Set default toolchain
-RUN $HOME/.cargo/bin/rustup default nightly-2022-03-30
+ARG NIGHTLY_VERSION=nightly
+RUN $HOME/.cargo/bin/rustup default ${NIGHTLY_VERSION}
 # Fetch dependencies: espressif-trainings
 RUN git clone -b feature/fetch-dependencies https://github.com/SergioGasquez/espressif-trainings.git && \
     # Hardware Check
