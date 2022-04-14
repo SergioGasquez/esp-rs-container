@@ -32,6 +32,7 @@ jobs:
             ESP_IDF_VER=v4.4
             ESP_IDF_BRANCH=release/v4.4
             ESP_BOARD=all
+            NIGHTLY_VERSION=nightly-2022-03-30
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
@@ -47,6 +48,7 @@ jobs:
             ESP_IDF_VER=v5.0
             ESP_IDF_BRANCH=master
             ESP_BOARD=all
+            NIGHTLY_VERSION=nightly-2022-03-30
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
@@ -62,6 +64,7 @@ jobs:
             ESP_IDF_VER=v4.3.2
             ESP_IDF_BRANCH=release/v4.3
             ESP_BOARD=all
+            NIGHTLY_VERSION=nightly-2022-03-30
           context: .
           platforms: linux/amd64
           push: true
@@ -77,6 +80,7 @@ jobs:
             ESP_IDF_VER=v4.4
             ESP_IDF_BRANCH=release/v4.4
             ESP_BOARD=esp32c3
+            NIGHTLY_VERSION=nightly-2022-03-30
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
