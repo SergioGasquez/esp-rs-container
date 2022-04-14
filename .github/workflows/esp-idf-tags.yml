@@ -115,7 +115,7 @@ jobs:
           build-args: |
             BASE_DOCKERFILE=xtensa-base
             ESP_IDF_VER=v4.4
-            ESP_IDF_BRANCH=release/v.4.4
+            ESP_IDF_BRANCH=release/v4.4
             ESP_BOARD=${{ matrix.board }}
           context: .
           platforms: linux/amd64, linux/arm64
