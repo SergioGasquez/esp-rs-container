@@ -36,8 +36,6 @@ jobs:
           platforms: linux/amd64, linux/arm64
           push: true
           tags: sergiogasquez/esp-rs-env:espidf_v4.4
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
         name: Build and push - espidf_v5.0
         uses: docker/build-push-action@v2
@@ -51,8 +49,6 @@ jobs:
           platforms: linux/amd64, linux/arm64
           push: true
           tags: sergiogasquez/esp-rs-env:espidf_v5.0, sergiogasquez/esp-rs-env:master
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
         name: Build and push - espidf_v4.3.2
         uses: docker/build-push-action@v2
@@ -66,8 +62,6 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: sergiogasquez/esp-rs-env:espidf_v4.3.2
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       -
         name: Build and push - esp32c3
         uses: docker/build-push-action@v2
@@ -81,12 +75,6 @@ jobs:
           platforms: linux/amd64, linux/arm64
           push: true
           tags: sergiogasquez/esp-rs-env:esp32c3
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-      - name: Move cache
-        run:
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
   xtensa-tags:
     runs-on: ubuntu-latest
     strategy:
@@ -121,12 +109,6 @@ jobs:
           platforms: linux/amd64, linux/arm64
           push: true
           tags: sergiogasquez/esp-rs-env:${{ matrix.board }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
-      - name: Move cache
-        run:
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
   trigger-wokwi-tag:
     needs: esp-idf-and-riscv-tags
     runs-on: ubuntu-latest
