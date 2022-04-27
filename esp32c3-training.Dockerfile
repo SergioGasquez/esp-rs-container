@@ -19,7 +19,7 @@ ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
 RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain ${NIGHTLY_VERSION}
 RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
 RUN $HOME/.cargo/bin/cargo install cargo-generate espmonitor bindgen ldproxy
-RUN $HOME/.cargo/bin/cargo install cargo-espflash --version 1.4.0
+RUN $HOME/.cargo/bin/cargo install cargo-espflash --version 1.4.1
 ENV ESP_IDF_TOOLS_INSTALL_DIR=global
 ENV ESP_BOARD=esp32c3
 ENV ESP_IDF_VER=v4.4
