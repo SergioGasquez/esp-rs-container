@@ -38,7 +38,7 @@ jobs:
         with:
           file: ${{ matrix.base }}.Dockerfile
           build-args: |
-            NIGHTLY_VERSION=nightly-2022-03-30
+            NIGHTLY_VERSION=nightly
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
