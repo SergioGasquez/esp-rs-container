@@ -8,7 +8,7 @@ USER ${CONTAINER_USER}
 ARG NIGHTLY_VERSION=nightly
 RUN $HOME/.cargo/bin/rustup default ${NIGHTLY_VERSION}
 # Fetch dependencies: espressif-trainings
-RUN git clone https://github.com/SergioGasquez/ferrous-training.git && \
+RUN git clone https://github.com/SergioGasquez/ferrous-training.git espressif-trainings && \
     # Hardware Check
     cd $HOME/espressif-trainings/intro/hardware-check && \
     $HOME/.cargo/bin/cargo fetch && \
