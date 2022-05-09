@@ -14,7 +14,7 @@ In order to use it with Visual Studio Code integration, please refer to
 
 Using Git Hub actions, several tags for `linux/amd64` and for `linux/arm64`
 platforms will be published into the
-[sergiogasquez/esp-rs-env](https://hub.docker.com/repository/docker/sergiogasquez/esp-rs-env) image:
+[sergiogasquez/esp-rs-env](https://hub.docker.com/r/sergiogasquez/esp-rs-env) image:
 - `base` is generated using `base.Dockerfile` and they will have
   all the dependencies for all the supported ESP boards but no prebuild esp-idf environment installed.
 - `xtensa-base` is generated using `xtensa-base.Dockerfile` and they will have
