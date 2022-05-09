@@ -1,7 +1,7 @@
 # Installs both available toolchains for Rust in ESP boards: nightly and esp
 
 # Base image
-ARG VARIANT=bullseye
+ARG VARIANT=bullseye-slim
 FROM debian:${VARIANT}
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
@@ -13,8 +13,8 @@ ARG NIGHTLY_TOOLCHAIN_VERSION=nightly
 ARG XTENSA_TOOLCHAIN_VERSION=1.59.0.1
 # Install dependencies
 RUN apt-get update \
-    && apt-get install -y vim nano git curl gcc ninja-build libudev-dev \
-    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5 clang \
+    && apt-get install -y git curl gcc clang ninja-build libudev-dev \
+    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5  \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts \
     && pip3 install websockets==10.2
 # Set user
@@ -32,6 +32,6 @@ RUN chmod a+x install-rust-toolchain.sh \
     --clear-cache "YES" --export-file /home/${CONTAINER_USER}/export-rust.sh
 # Install nightly toolchain version
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
-    --default-toolchain ${NIGHTLY_TOOLCHAIN_VERSION} -y \
+    --default-toolchain ${NIGHTLY_TOOLCHAIN_VERSION} -y --profile minimal\
     && $HOME/.cargo/bin/rustup component add rust-src --toolchain ${NIGHTLY_TOOLCHAIN_VERSION} \
     && $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf

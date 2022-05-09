@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bullseye-slim
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
@@ -8,15 +8,16 @@ ARG NIGHTLY_VERSION=nightly-2022-03-10
 ARG ESP_IDF_VERSION=release/v4.4
 ARG ESP_BOARD=esp32c3
 RUN apt-get update \
-    && apt-get install -y vim nano git curl gcc ninja-build libudev-dev \
-    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5 clang \
-    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+    && apt-get install -y git curl gcc clang ninja-build libudev-dev \
+    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5  \
+    && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts \
+    && pip3 install websockets==10.2
 RUN adduser --disabled-password --gecos "" ${CONTAINER_USER}
 USER ${CONTAINER_USER}
 WORKDIR /home/${CONTAINER_USER}
 ENV PATH=${PATH}:$HOME/.cargo/bin
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
-    --default-toolchain ${NIGHTLY_VERSION} -y \
+    --default-toolchain ${NIGHTLY_VERSION} -y --profile minimal\
     && $HOME/.cargo/bin/rustup component add rust-src --toolchain ${NIGHTLY_VERSION} \
     && $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf \
     && $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy

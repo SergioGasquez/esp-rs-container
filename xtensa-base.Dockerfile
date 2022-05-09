@@ -1,7 +1,7 @@
 # Installs Rust esp toolchain and sets it to be used with RiscV ESP targets (esp32s2, esp32s3 and esp32)
 
 # Base image
-ARG VARIANT=bullseye
+ARG VARIANT=bullseye-slim
 FROM debian:${VARIANT}
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
@@ -12,8 +12,8 @@ ARG CONTAINER_GROUP=esp
 ARG XTENSA_TOOLCHAIN_VERSION=1.59.0.1
 # Install dependencies
 RUN apt-get update \
-    && apt-get install -y vim nano git curl gcc ninja-build libudev-dev \
-    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5 clang \
+    && apt-get install -y git curl gcc clang ninja-build libudev-dev \
+    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5  \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts \
     && pip3 install websockets==10.2
 # Set user
