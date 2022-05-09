@@ -2,33 +2,37 @@ FROM debian:bullseye
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
+ARG CONTAINER_USER=esp
+ARG CONTAINER_GROUP=esp
+ARG NIGHTLY_VERSION=nightly-2022-03-10
+ARG ESP_IDF_VERSION=release/v4.4
+ARG ESP_BOARD=esp32c3
 RUN apt-get update \
-    && apt-get install -y vim nano git curl gcc ninja-build cmake libudev-dev \
+    && apt-get install -y vim nano git curl gcc ninja-build libudev-dev \
     python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5 clang \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
-RUN pip3 install websockets==10.2
-ARG CONTAINER_USER=esp
-ENV USER=${CONTAINER_USER}
 RUN adduser --disabled-password --gecos "" ${CONTAINER_USER}
 USER ${CONTAINER_USER}
 WORKDIR /home/${CONTAINER_USER}
-ARG NIGHTLY_VERSION=nightly
+ENV PATH=${PATH}:$HOME/.cargo/bin
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
-    --default-toolchain ${NIGHTLY_VERSION} -y
-ENV PATH=${PATH}:$HOME/.cargo/bin:$HOME/.cargo/bin
-RUN $HOME/.cargo/bin/rustup component add rust-src --toolchain ${NIGHTLY_VERSION}
-RUN $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
-RUN $HOME/.cargo/bin/cargo install cargo-generate espmonitor bindgen ldproxy
-RUN $HOME/.cargo/bin/cargo install cargo-espflash --version 1.4.1
-ENV ESP_IDF_TOOLS_INSTALL_DIR=global
-ENV ESP_BOARD=esp32c3
-ENV ESP_IDF_VER=v4.4
-ENV ESP_IDF_VERSION=release/v4.4
-ENV ESP_IDF_BRANCH=release/v4.4
-RUN git clone --recursive --depth 1 --shallow-submodules -b ${ESP_IDF_BRANCH} \
-    https://github.com/espressif/esp-idf.git $HOME/esp-idf
-RUN $HOME/esp-idf/install.sh ${ESP_BOARD}
-ENV IDF_PATH=$HOME/esp-idf
+    --default-toolchain ${NIGHTLY_VERSION} -y \
+    && $HOME/.cargo/bin/rustup component add rust-src --toolchain ${NIGHTLY_VERSION} \
+    && $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf \
+    && $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy
+RUN mkdir -p .espressif/frameworks/ \
+    && git clone --branch ${ESP_IDF_VERSION} -q --depth 1 --shallow-submodules \
+    --recursive https://github.com/espressif/esp-idf.git \
+    .espressif/frameworks/esp-idf-v4.4 \
+    && python3 .espressif/frameworks/esp-idf-v4.4/tools/idf_tools.py install cmake \
+    && .espressif/frameworks/esp-idf-v4.4/install.sh ${ESP_BOARD} \
+    && rm -rf .espressif/dist \
+    && rm -rf .espressif/frameworks/esp-idf-v4.4/docs \
+    && rm -rf .espressif/frameworks/esp-idf-v4.4/examples \
+    && rm -rf .espressif/frameworks/esp-idf-v4.4/tools/esp_app_trace \
+    && rm -rf .espressif/frameworks/esp-idf-v4.4/tools/test_idf_size
+ENV IDF_TOOLS_PATH=/home/${CONTAINER_USER}/.espressif
+RUN echo "source /home/${CONTAINER_USER}/.espressif/frameworks/esp-idf-v4.4/export.sh > /dev/null 2>&1" >> ~/.bashrc
 # In order to have dependencies pre-fecthed please, uncoment this section:
 # RUN git clone https://github.com/ferrous-systems/espressif-trainings.git && \
 #     # Hardware Check
@@ -66,3 +70,4 @@ ENV IDF_PATH=$HOME/esp-idf
 #     $HOME/.cargo/bin/cargo fetch && \
 #     # Delete the repository
 #     rm -rf $HOME/espressif-trainings
+CMD "/bin/bash"

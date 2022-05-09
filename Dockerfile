@@ -1,23 +1,27 @@
-# Uses one of the base dockerfiles and installs the an esp-idf version
+# Uses one of the base dockerfiles and installs an esp-idf version
 # for the desired board (or all)
+
+# Base image
 ARG BASE_DOCKERFILE
 FROM sergiogasquez/esp-rs-env:${BASE_DOCKERFILE}
-# Set user
+# Arguments
 ARG CONTAINER_USER=esp
+ARG ESP_IDF_VERSION=release/v4.4
+ARG ESP_BOARD=all
+# Set user
 USER ${CONTAINER_USER}
-# Set enviroment variables
-ENV ESP_IDF_TOOLS_INSTALL_DIR=global
-ARG ESP_IDF_VER
-ARG ESP_IDF_BRANCH
-ARG ESP_BOARD
-ENV ESP_BOARD=${ESP_BOARD}
-ENV ESP_IDF_VER=${ESP_IDF_VER}
-ENV ESP_IDF_VERSION=${ESP_IDF_BRANCH}
-ENV ESP_IDF_BRANCH=${ESP_IDF_BRANCH}
-# Clone and install esp-idf
-RUN git clone --recursive --depth 1 --shallow-submodules -b ${ESP_IDF_BRANCH} \
-    https://github.com/espressif/esp-idf.git $HOME/esp-idf
-RUN $HOME/esp-idf/install.sh ${ESP_BOARD}
-# Set enviroment variables
-ENV IDF_PATH=$HOME/esp-idf
-RUN echo export IDF_PYTHON_ENV_PATH=$HOME/.local/bin >> ~/.bashrc
+# Install ESP-IDF
+RUN mkdir -p .espressif/frameworks/ \
+    && git clone --branch ${ESP_IDF_VERSION} --depth 1 --shallow-submodules \
+    --recursive https://github.com/espressif/esp-idf.git \
+    .espressif/frameworks/esp-idf-v4.4 \
+    && python3 .espressif/frameworks/esp-idf-v4.4/tools/idf_tools.py install cmake \
+    && .espressif/frameworks/esp-idf-v4.4/install.sh ${ESP_BOARD} \
+    && rm -rf .espressif/dist \
+    && rm -rf .espressif/frameworks/esp-idf-v4.4/docs \
+    && rm -rf .espressif/frameworks/esp-idf-v4.4/examples \
+    && rm -rf .espressif/frameworks/esp-idf-v4.4/tools/esp_app_trace \
+    && rm -rf .espressif/frameworks/esp-idf-v4.4/tools/test_idf_size
+# Activate ESP-IDF environment
+ENV IDF_TOOLS_PATH=/home/${CONTAINER_USER}/.espressif
+RUN echo "source /home/${CONTAINER_USER}/.espressif/frameworks/esp-idf-v4.4/export.sh > /dev/null 2>&1" >> ~/.bashrc

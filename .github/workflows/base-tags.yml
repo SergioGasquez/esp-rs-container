@@ -38,7 +38,8 @@ jobs:
         with:
           file: ${{ matrix.base }}.Dockerfile
           build-args: |
-            NIGHTLY_VERSION=nightly
+            NIGHTLY_TOOLCHAIN_VERSION=nightly
+            XTENSA_TOOLCHAIN_VERSION=1.60.0.1
           context: .
           platforms: linux/amd64, linux/arm64
           push: true
