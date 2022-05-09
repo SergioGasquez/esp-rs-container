@@ -24,4 +24,5 @@ WORKDIR /home/${CONTAINER_USER}
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
     --default-toolchain ${NIGHTLY_TOOLCHAIN_VERSION} -y --profile minimal\
     && $HOME/.cargo/bin/rustup component add rust-src --toolchain ${NIGHTLY_TOOLCHAIN_VERSION} \
-    && $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf
+    && $HOME/.cargo/bin/rustup target add riscv32i-unknown-none-elf \
+    && $HOME/.cargo/bin/cargo install cargo-generate cargo-espflash espmonitor bindgen ldproxy
