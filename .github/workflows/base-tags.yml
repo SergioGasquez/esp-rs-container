@@ -5,10 +5,12 @@ on:
     branches: [ main ]
     paths-ignore:
       - '**/README.md'
+      - "esp32c3-training.Dockerfile"
   pull_request:
     branches: [ main ]
     paths-ignore:
       - '**/README.md'
+      - "esp32c3-training.Dockerfile"
 
 jobs:
   base-tags:

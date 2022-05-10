@@ -28,7 +28,7 @@ ADD --chown=${CONTAINER_USER}:${CONTAINER_GROUP} \
     /home/${CONTAINER_USER}/install-rust-toolchain.sh
 RUN chmod a+x install-rust-toolchain.sh \
     && ./install-rust-toolchain.sh \
-    --extra-crates "ldproxy cargo-generate cargo-espflash espmonitor bindgen" \
+    --extra-crates "ldproxy cargo-generate cargo-espflash espmonitor" \
     --clear-cache "YES" --export-file /home/${CONTAINER_USER}/export-rust.sh
 # Install nightly toolchain version
 RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- \
