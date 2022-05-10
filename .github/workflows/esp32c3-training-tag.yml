@@ -3,12 +3,12 @@ name: Docker Esp Idf Versions Images CI
 on:
   push:
     branches: [ main ]
-    paths-ignore:
-      - '**/README.md'
+    paths:
+      - "esp32c3-training.Dockerfile"
   pull_request:
     branches: [ main ]
-    paths-ignore:
-      - '**/README.md'
+    paths:
+      - "esp32c3-training.Dockerfile"
 
 jobs:
   esp32c3-training:
