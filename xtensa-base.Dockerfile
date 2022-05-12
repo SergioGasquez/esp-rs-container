@@ -12,7 +12,7 @@ ARG CONTAINER_GROUP=esp
 ARG XTENSA_TOOLCHAIN_VERSION=1.59.0.1
 # Install dependencies
 RUN apt-get update \
-    && apt-get install -y git curl gcc clang ninja-build libudev-dev \
+    && apt-get install -y git curl gcc clang ninja-build libudev-dev unzip xz-utils\
     python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5  libpython2.7 \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 # Set user
@@ -27,5 +27,5 @@ ADD --chown=${CONTAINER_USER}:${CONTAINER_GROUP} \
 RUN chmod a+x install-rust-toolchain.sh \
     && ./install-rust-toolchain.sh \
     --extra-crates "ldproxy cargo-generate cargo-espflash espmonitor" \
-    --clear-cache "YES" --export-file /home/${CONTAINER_USER}/export-rust.sh
+    --clear-cac<he "YES" --export-file /home/${CONTAINER_USER}/export-rust.sh
 RUN echo "source /home/${CONTAINER_USER}/export-rust.sh > /dev/null 2>&1" >> ~/.bashrc
