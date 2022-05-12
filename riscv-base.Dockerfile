@@ -13,7 +13,7 @@ ARG NIGHTLY_TOOLCHAIN_VERSION=nightly
 # Install dependencies
 RUN apt-get update \
     && apt-get install -y git curl gcc clang ninja-build libudev-dev \
-    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5  libpython2.7\
+    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5  libpython2.7 \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 # Set user
 RUN adduser --disabled-password --gecos "" ${CONTAINER_USER}
