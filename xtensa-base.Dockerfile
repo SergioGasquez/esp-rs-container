@@ -27,5 +27,5 @@ ADD --chown=${CONTAINER_USER}:${CONTAINER_GROUP} \
 RUN chmod a+x install-rust-toolchain.sh \
     && ./install-rust-toolchain.sh \
     --extra-crates "ldproxy cargo-generate cargo-espflash espmonitor" \
-    --clear-cac<he "YES" --export-file /home/${CONTAINER_USER}/export-rust.sh
+    --clear-cache "YES" --export-file /home/${CONTAINER_USER}/export-rust.sh
 RUN echo "source /home/${CONTAINER_USER}/export-rust.sh > /dev/null 2>&1" >> ~/.bashrc
