@@ -9,7 +9,7 @@ This repository contains Dockerfiles that create environments, using Debian
 11.2, with all the necessary tools to develop applications for
 [ESP boards using Rust](https://github.com/esp-rs).
 
-In order to use it with Visual Studio Code integration, please refer to
+In order to use it with Visual Studio Code Devcontainer or with Gitpod, please refer to
 [esp-rs-devcontainer](https://github.com/SergioGasquez/esp-rs-devcontainer).
 
 Using Git Hub actions, several tags for `linux/amd64` and for `linux/arm64`

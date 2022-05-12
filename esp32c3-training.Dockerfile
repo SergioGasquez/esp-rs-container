@@ -9,9 +9,8 @@ ARG ESP_IDF_VERSION=release/v4.4
 ARG ESP_BOARD=esp32c3
 RUN apt-get update \
     && apt-get install -y git curl gcc clang ninja-build libudev-dev \
-    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5  \
+    python3 python3-pip libusb-1.0-0 libssl-dev pkg-config libtinfo5 libpython2.7 \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts \
-    && pip3 install websockets==10.2
 RUN adduser --disabled-password --gecos "" ${CONTAINER_USER}
 USER ${CONTAINER_USER}
 WORKDIR /home/${CONTAINER_USER}
