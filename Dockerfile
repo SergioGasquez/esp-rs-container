@@ -14,14 +14,14 @@ USER ${CONTAINER_USER}
 RUN mkdir -p .espressif/frameworks/ \
     && git clone --branch ${ESP_IDF_VERSION} --depth 1 --shallow-submodules \
     --recursive https://github.com/espressif/esp-idf.git \
-    .espressif/frameworks/esp-idf-v4.4 \
-    && python3 .espressif/frameworks/esp-idf-v4.4/tools/idf_tools.py install cmake \
-    && .espressif/frameworks/esp-idf-v4.4/install.sh ${ESP_BOARD} \
+    .espressif/frameworks/esp-idf \
+    && python3 .espressif/frameworks/esp-idf/tools/idf_tools.py install cmake \
+    && .espressif/frameworks/esp-idf/install.sh ${ESP_BOARD} \
     && rm -rf .espressif/dist \
-    && rm -rf .espressif/frameworks/esp-idf-v4.4/docs \
-    && rm -rf .espressif/frameworks/esp-idf-v4.4/examples \
-    && rm -rf .espressif/frameworks/esp-idf-v4.4/tools/esp_app_trace \
-    && rm -rf .espressif/frameworks/esp-idf-v4.4/tools/test_idf_size
+    && rm -rf .espressif/frameworks/esp-idf/docs \
+    && rm -rf .espressif/frameworks/esp-idf/examples \
+    && rm -rf .espressif/frameworks/esp-idf/tools/esp_app_trace \
+    && rm -rf .espressif/frameworks/esp-idf/tools/test_idf_size
 # Activate ESP-IDF environment
 ENV IDF_TOOLS_PATH=/home/${CONTAINER_USER}/.espressif
-RUN echo "source /home/${CONTAINER_USER}/.espressif/frameworks/esp-idf-v4.4/export.sh > /dev/null 2>&1" >> ~/.bashrc
+RUN echo "source /home/${CONTAINER_USER}/.espressif/frameworks/esp-idf/export.sh > /dev/null 2>&1" >> ~/.bashrc
