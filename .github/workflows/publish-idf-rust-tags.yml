@@ -1,6 +1,10 @@
 name: Publish IDF-Rust Tags
 
 on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**/README.md'
   workflow_dispatch:
     inputs:
       rust-build-branch:
