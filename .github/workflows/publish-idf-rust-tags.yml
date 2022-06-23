@@ -87,8 +87,6 @@ jobs:
           context: .
           platforms: linux/amd64
           push: false
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
       - name: Test image
         run: docker exec -it -u esp idf-rust bash -c 'git clone https://github.com/ivmarkov/rust-esp32-std-demo.git &&  source export-esp.sh && cd rust-esp32-std-demo && export RUST_ESP32_STD_DEMO_WIFI_SSID=ssid && export RUST_ESP32_STD_DEMO_WIFI_PASS=pass && cargo +esp build --target xtensa-esp32-espidf --release'
       -
