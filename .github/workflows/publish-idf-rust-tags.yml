@@ -90,7 +90,9 @@ jobs:
       - name: Build image
         run: docker build --build-arg XTENSA_TOOLCHAIN_VERSION=${{ github.event.inputs.toolchain-version }} --build-arg ESP_IDF_VERSION=master --build-arg ESP_BOARD=${{ matrix.board }} -t idf-rust -f idf-rust.Containerfile .
       - name: Test image
-        run: docker exec -it -u esp idf-rust bash -c 'git clone https://github.com/ivmarkov/rust-esp32-std-demo.git &&  source export-esp.sh && cd rust-esp32-std-demo && export RUST_ESP32_STD_DEMO_WIFI_SSID=ssid && export RUST_ESP32_STD_DEMO_WIFI_PASS=pass && cargo +esp build --target xtensa-esp32-espidf --release'
+        run: |
+          docker run -it --rm -u esp --name idf-rust idf-rust
+          docker exec -it -u esp idf-rust bash -c 'git clone https://github.com/ivmarkov/rust-esp32-std-demo.git &&  source export-esp.sh && cd rust-esp32-std-demo && export RUST_ESP32_STD_DEMO_WIFI_SSID=ssid && export RUST_ESP32_STD_DEMO_WIFI_PASS=pass && cargo +esp build --target xtensa-esp32-espidf --release'
       -
         name: Docker Push
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/esp-rs-env:${{ matrix.board }}_master_${{ github.event.inputs.toolchain-version }}
